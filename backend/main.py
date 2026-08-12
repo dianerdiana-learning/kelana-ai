@@ -5,17 +5,25 @@ def print_trip_summary(destination, country, days, budget, currency, travel_mont
     print(f"Destination  : {destination}")
     print(f"Country      : {country}")
     print(f"Days         : {days}")
-    print(f"Budget       : {budget} {currency}")
+    # Menggunakan :g agar jika input 1500.0 akan dicetak 1500 tanpa desimal .0
+    print(f"Budget       : {budget:g} {currency}")
     print(f"Currency     : {currency}")
     print(f"Travel Month : {travel_month}")
 
 
-# Memanggil function dengan data spesifik
-print_trip_summary(
-    destination="Japan",
-    country="Japan",
-    days=5,
-    budget=1500,
-    currency="USD",
-    travel_month="December",
-)
+# Blok utama untuk menjalankan interaksi input
+if __name__ == "__main__":
+    print("--- Form Pengisian KelanaAI ---")
+
+    # a. Input Interaktif beserta konversi tipe data
+    destination = input("Masukkan Destination : ")
+    country = input("Masukkan Country     : ")
+    days = int(input("Masukkan Days        : "))
+    budget = float(input("Masukkan Budget      : "))
+    currency = input("Masukkan Currency    : ")
+    travel_month = input("Masukkan Travel Month: ")
+
+    print("\n")  # Memberikan jarak sebelum output hasil
+
+    # b. Memanggil fungsi
+    print_trip_summary(destination, country, days, budget, currency, travel_month)
