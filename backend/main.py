@@ -54,3 +54,56 @@ if __name__ == "__main__":
 
     # b. Memanggil fungsi
     print_trip_summary(destination, country, days, budget, currency, travel_month)
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+
+class TripRequest(BaseModel):
+    destination: str
+    days: int
+    budget: float
+    travel_style: str
+
+
+@app.get("/")
+def home():
+    return {"message": "Welcome to KelanaAI"}
+
+
+@app.get("/health", tags=["Health Check"])
+def health_check():
+    return {"status": "ok"}
+
+
+@app.post("/api/v1/trips")
+def create_trip(request: TripRequest):
+    daily_budget = calculate_daily_budget(request.budget, request.days)
+    category = get_trip_category(request.budget)
+    recommendation_transport = get_recommended_transportation(category)
+
+    return {
+        "destination": request.destination,
+        "budget": request.budget,
+        "daily_budget": daily_budget,
+        "category": category,
+        "recommendation_transport": recommendation_transport,
+        "travel_style": request.travel_style,
+    }
+
+
+@app.get("/api/v1/trip-categories")
+def trip_categories():
+    return ["Backpacker", "Standard", "Luxury"]
+
+
+@app.get("/api/v1/recommendations")
+def recommendations():
+    return ["Tokyo Tower", "Mount Fuji", "Shibuya"]
+
+
+@app.get("/api/v1/transportations")
+def transportations():
+    return ["Bus", "Train", "Flight"]
